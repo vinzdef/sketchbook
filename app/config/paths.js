@@ -14,7 +14,7 @@ module.exports = {
       optimized: `${root}/assets/optimized`,
     },
     fixtures: `${root}/fixtures`,
-    locales: `${root}/locales`,
+    sketches: `${root}/scripts/sketches`,
     views: `${root}/views`,
   },
 
@@ -27,7 +27,6 @@ module.exports = {
     scripts: `${pub}/js`,
     static: `${pub}/static`,
     assets: `${pub}/assets`,
-    locales: `${artifacts}/locales`,
     manifest: `${artifacts}/rev-manifest.json`
   }
 }

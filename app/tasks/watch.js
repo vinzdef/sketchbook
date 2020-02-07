@@ -11,6 +11,10 @@ module.exports = function watch() {
       gulp.series('webpack-independent', 'reload-browser')
     )
 
+    gulp.watch(`${paths.src.scripts}/**/*.js`,
+      gulp.series('views', 'reload-browser')
+    )
+
     gulp.watch(`${paths.src.assets.original}/**/*.*`,
       gulp.series('optimize-assets', 'reload-browser')
     )
@@ -19,25 +23,12 @@ module.exports = function watch() {
       gulp.series('copy-static')
     )
 
-    gulp.watch(`${paths.src.locales}/*.po`,
-      gulp.series(
-        'convert-po',
-        'views',
-        'reload-browser'
-      )
+    gulp.watch(`${paths.src.views}/**/*.{njk,html}`,
+      gulp.series('views', 'reload-browser')
     )
 
-    gulp.watch(`${paths.src.views}/**/*.{njk,html}`,
-      gulp.series(
-        'views',
-        'reload-browser'
-      )
-    )
     gulp.watch(`${paths.src.fixtures}/**/*.json`,
-      gulp.series(
-        'views',
-        'reload-browser'
-      )
+      gulp.series('views', 'reload-browser')
     )
 
     resolve()

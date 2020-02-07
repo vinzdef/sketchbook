@@ -1,3 +1,34 @@
-<aside class="Sidebar">
+<aside class="Sidebar js-sidebar" data-state="open">
 
+  <button class="Sidebar_toggle js-side-toggle">
+    <svg class="icon Sidebar_iconHamburger">
+      <use xlink:href="#icon-hamburger"></use>
+    </svg>
+    <svg class="icon Sidebar_iconCollapse">
+      <use xlink:href="#icon-collapse"></use>
+    </svg>
+  </button>
+
+  <div class="Sidebar_content">
+
+    <ul class="Sidebar_list">
+      {% for sketch in sketches %}
+      <li><a href="#{{sketch}}">{{sketch}}</a></li>
+      {% endfor %}
+    </ul>
+    <footer class="Sidebar_info">
+      <div class="Sidebar_buttons">
+        <a class="Sidebar_button js-code-link"
+          data-base-url="https://github.com/vinzdef/sketchbook/tree/master/app/scripts/sketches/"
+          target="_blank">
+          <svg class="icon"><use xlink:href="#icon-code"></use></svg>
+        </a>
+        <button class="Sidebar_button js-restart" disabled>
+          <svg class="icon"><use xlink:href="#icon-restart"></use></svg>
+        </button>
+      </div>
+      <p>Made by <b>Vincent</b></p>
+    </footer>
+
+  </div>
 </aside>

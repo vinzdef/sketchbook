@@ -1,8 +1,28 @@
 .Mainpane {
-  position: fixed;
-  top: 0;
-  left: 0;
+  overflow: hidden;
 
-  width: 100%;
+  flex: 1 1 auto;
+
+
+  &[data-state="empty"] {
+    .Mainpane_intro {
+      display: flex;
+    }
+  }
+
+  &[data-state="loading"] {
+    .Mainpane_loader {
+      display: flex;
+    }
+  }
+}
+
+.Mainpane_intro,
+.Mainpane_loader {
+  display: none;
+
+  justify-content: center;
+  align-items: center;
+
   height: 100%;
 }

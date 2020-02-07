@@ -1,6 +1,5 @@
 const gulp = require('gulp')
 const plugins = require('./utils/gulp-plugins')
-const merge = require('merge-stream')
 const Golc = require('golc')
 const L = new Golc('client | views', {withNewline: true})
 
@@ -13,14 +12,12 @@ const paths = require('../config/paths')
 const nunjucks = require('nunjucks')
 
 const fixturesPath = paths.src.fixtures
-const localesPath = paths.dist.locales
+const sketchesPath = paths.src.sketches
 const manifestPath = paths.dist.manifest
 const viewPath = paths.src.views
 const distPath = paths.dist.public
 
 const options = require('../config/options')
-
-const translator = {}
 
 const viewPaths = [
   `${viewPath}/{,*/}*.{njk,html}`,
@@ -31,27 +28,13 @@ const viewPaths = [
   `!${viewPath}/sections/**`,
 ]
 
-
 function errorNotifier(error) {
   if (!error) return
-
-  let message
-  if (error.message && error.message.includes('__')) {
-    message = 'Seems like you have no languages, yet you are using translation keys in your templates'
-  }
-
-  L.error(error, message)
+  L.error(error)
 }
 
-function compileNunjucks(templateData, lang, isDefault) {
+function compileNunjucks(templateData) {
   const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(viewPath))
-
-  if (lang) {
-    env.addGlobal('__', function(key) {
-      translator.setLocale.bind(translator, lang)()
-      return translator.__(key)
-    })
-  }
 
   return gulp.src(viewPaths)
     .pipe(plugins.if(!options.isProduction, plugins.plumber({errorHandler: errorNotifier})))
@@ -65,10 +48,7 @@ function compileNunjucks(templateData, lang, isDefault) {
       collapseWhitespace: true,
       removeComments: true
     })))
-    .pipe(plugins.if(lang && !isDefault,
-      gulp.dest(`${distPath}/${lang}`),
-      gulp.dest(distPath))
-    )
+    .pipe(gulp.dest(distPath))
 }
 
 function getTemplateData() {
@@ -96,35 +76,14 @@ function getTemplateData() {
   return templateData
 }
 
-
 module.exports = function views() {
   const templateData = getTemplateData()
   templateData.build = {
     timestamp: Date.now()
   }
 
-  const hasLanguages = fs.existsSync(localesPath)
-  const languages = hasLanguages && fs.readdirSync(localesPath)
-  if (!hasLanguages || !languages.length || !options.i18n) return compileNunjucks(templateData)
-
-  const i18n = require('i18n')
-  i18n.configure(Object.assign(options.i18n, {
-    directory: localesPath,
-    register: translator
-  }))
-
-  i18n.init()
-
-  const streams = languages
-    .map(f => {
-      const lang = path.basename(f, '.json')
-      return compileNunjucks(templateData, lang)
-    })
-
-  streams.push(
-    compileNunjucks(templateData, options.i18n.defaultLocale, true)
-  )
-
-  return merge.apply(merge, streams)
+  templateData.sketches = fs.readdirSync(sketchesPath)
+  L.info(`SKETCHES: \n ∙ ${templateData.sketches.join('\n')}`)
+  return compileNunjucks(templateData)
 }
 
