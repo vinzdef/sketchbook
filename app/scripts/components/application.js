@@ -4,5 +4,11 @@ import {qs} from '@okiba/dom'
 export default class Application extends Component {
   constructor() {
     super({ el: qs('.js-application') })
+    this.initSketch()
+  }
+
+  async initSketch() {
+    const { default: sketch } = await import('~/sketches/cube')
+    sketch()
   }
 }
