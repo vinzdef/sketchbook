@@ -4,8 +4,6 @@
 
 
 {% block main %}
-Sketchbook
-<footer>
-Sketchbook is a project by Vincent De Feo — Last update was on: {{ build.timestamp }}
-</footer>
+{% include 'components/sidebar.njk' %}
+{% include 'components/mainpane.njk' %}
 {% endblock %}
