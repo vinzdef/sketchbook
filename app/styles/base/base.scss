@@ -12,12 +12,10 @@ body {
   min-height: 100%;
   margin: 0;
 
-  color: $color-white;
-  background: #111111;
+  color: $color-black;
 
   overscroll-behavior-y: none;
   -webkit-overflow-scrolling: touch;
-  scrollbar-color: black $color-gray;
 }
 
 #svg-symbols {
@@ -46,20 +44,13 @@ strong {
   font-weight: bold;
 }
 
-
-html {
-  ::selection {
-    background-color: #f136ff;
-  }
-}
-
 img {
   user-select: none;
   user-drag: none;
 }
 
 .hidden {
-  display: inline;
+  display: inline-block;
   visibility: hidden;
   opacity: 0;
   overflow: hidden;

@@ -99,6 +99,9 @@ function getTemplateData() {
 
 module.exports = function views() {
   const templateData = getTemplateData()
+  templateData.build = {
+    timestamp: Date.now()
+  }
 
   const hasLanguages = fs.existsSync(localesPath)
   const languages = hasLanguages && fs.readdirSync(localesPath)

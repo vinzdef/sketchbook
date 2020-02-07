@@ -1,6 +1,11 @@
 {% set pageTitle = 'Sketchbook' %}
-{% set metaDescription = '' %}
+{% set metaDescription = 'Collection of sketched on web technologies' %}
+{% extends 'templates/default.njk' %}
+
 
 {% block main %}
 Sketchbook
+<footer>
+Sketchbook is a project by Vincent De Feo — Last update was on: {{ build.timestamp }}
+</footer>
 {% endblock %}
