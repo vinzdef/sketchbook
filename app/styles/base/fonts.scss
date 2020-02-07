@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "Moksha";
+
+  font-display: swap;
+  src: url("/assets/fonts/Moksha.woff2") format("woff2"),
+  url("/assets/fonts/Moksha.woff") format("woff"), // standards
+  url("/assets/fonts/Moksha.ttf") format("truetype"); // Safari, Android, iOS
+}
+
+@font-face {
+  font-family: "SpecialElite";
+
+  font-display: swap;
+  src: url("/assets/fonts/SpecialElite.woff2") format("woff2"),
+  url("/assets/fonts/SpecialElite.woff") format("woff"), // standards
+  url("/assets/fonts/SpecialElite.ttf") format("truetype"); // Safari, Android, iOS
+}
+
+$font-size-default: 16px;
+$font-display: "Moksha";
+$font-text: "SpecialElite";

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <title>{{ pageTitle }}</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="{{ metaDescription }}" />
+  <link rel="canonical" href="https://www.vincentdefeo.com">
+  <meta name="theme-color" content="#414141">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/x-icon" />
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+  <link rel="preload" as="script" href="/{{ revisions['js/main.js'] or 'js/main.js' }}" />
+  {% if isProduction %}
+      <style> {{criticalCss|safe}} </style>
+  {% else %}
+      <link rel="stylesheet" href="/css/critical.css">
+  {% endif %}
+</head>
+<body class="{{ bodyClass if bodyClass | safe }}">
+
+  <div class="Application js-application">
+    {% block main %}
+    {% endblock %}
+  </div>
+
+  {# {% include "components/svg-symbols.njk" %} #}
+
+  <script data-src="/{{ revisions['js/main.js'] or 'js/main.js' }}" defer></script>
+  {% if isProduction %}
+      <script type="text/javascript">{{criticalScript|safe}}</script>
+  {% else %}
+      <script src="/js/critical.js"></script>
+  {% endif %}
+</body>
+</html>

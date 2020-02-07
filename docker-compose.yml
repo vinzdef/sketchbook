@@ -1,0 +1,58 @@
+version: '3'
+
+networks:
+  sketchbook: null
+  front-tier:
+    external:
+      name: front-tier
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: ./docker/client.dockerfile
+    command:
+      - "dev"
+    tty: true
+    environment:
+      NODE_ENV: 'development'
+    volumes:
+      - ./app:/app
+    networks:
+      - sketchbook
+
+  browser-sync:
+    build:
+      context: .
+      dockerfile: ./docker/browser-sync.dockerfile
+    volumes:
+      - ./app/config:/source/config
+      - ./app/node_modules:/source/node_modules
+      - ./app/scripts:/source/scripts
+      - ./app/tasks:/source/tasks
+      - ./app/babel.config.js:/source/babel.config.js
+      - ./app/dist:/dist
+      - ./app/assets/optimized:/static/assets
+    networks:
+      - sketchbook
+      - front-tier
+    environment:
+      VIRTUAL_HOST: sketchbook.test
+      VIRTUAL_PORT: 80
+    depends_on:
+      - client
+
+  tommy:
+    image: kopiro/tommy:latest
+    volumes:
+      - ./app/assets/original:/src
+      - ./app/assets/optimized:/dst
+    command: --webserver
+    networks:
+      - sketchbook
+    logging:
+      driver: "none"
+    depends_on:
+      - client
+
+
