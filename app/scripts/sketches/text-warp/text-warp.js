@@ -12,7 +12,7 @@ import vert from '~/sketches/text-warp/text-warp.vert'
 import frag from '~/sketches/text-warp/text-warp.frag'
 
 export default class TextWarp extends BaseSketch {
-  init() {
+  setup() {
     this.renderer = new Renderer({dpr: devicePixelRatio})
     this.gl = this.renderer.gl
     this.attach(this.gl.canvas)
@@ -20,6 +20,7 @@ export default class TextWarp extends BaseSketch {
     this.gl.clearColor(1, 1, 1, 1)
 
     this.camera = new Camera(this.gl, { fov: 45 })
+
     this.camera.position.set(0, 0, 7)
 
     this.controls = new Orbit(this.camera)
@@ -30,6 +31,9 @@ export default class TextWarp extends BaseSketch {
       generateMipmaps: false
     })
 
+    loadImage('/assets/msdf/special-elite.png', img => {
+      this.texture.image = img
+    })
 
     this.program = new Program(this.gl, {
       vertex: vert,
@@ -41,12 +45,11 @@ export default class TextWarp extends BaseSketch {
       cullFace: null,
       depthWrite: false
     })
+
+    this.loadFont()
   }
 
-  async prepare() {
-    const img = await loadImage('/assets/msdf/special-elite.png')
-    this.texture.image = img
-
+  async loadFont() {
     const font = await loadJson('/assets/msdf/special-elite.json')
 
     this.text = new Text({
@@ -77,7 +80,5 @@ export default class TextWarp extends BaseSketch {
     this.renderer.render({ scene, camera })
   }
 
-  cleanup() {
-    debugger
-  }
+  cleanup() {}
 }
