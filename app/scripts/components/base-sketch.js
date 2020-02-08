@@ -6,9 +6,13 @@ export default class BaseSketch extends Component {
   constructor({ el }) {
     super({ el })
     this.sizes = SizesCache.get(this.el)
+    this.start()
+  }
+
+  async start() {
     this.init()
     this.onResize()
-
+    await this.prepare()
     EventManager.on('raf', this.onRaf)
     EventManager.on('resize', this.onResize)
   }
@@ -38,6 +42,7 @@ export default class BaseSketch extends Component {
   }
 
   onDestroy() {
+    this.cleanup()
     EventManager.off('raf', this.onRaf)
     EventManager.off('resize', this.onResize)
     this.detach()
