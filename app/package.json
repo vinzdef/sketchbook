@@ -79,7 +79,7 @@
     "lodash.camelcase": "^4.3.0",
     "merge-stream": "^2.0.0",
     "node-fetch": "^2.6.0",
-    "node-notifier": "^5.4.3",
+    "node-notifier": "^8.0.1",
     "ogl": "0.0.39",
     "raw-loader": "^3.1.0",
     "regenerator-runtime": "^0.13.3",
